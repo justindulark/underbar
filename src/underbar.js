@@ -69,7 +69,6 @@
     // implemented for you. Instead of using a standard `for` loop, though,
     // it uses the iteration helper `each`, which you will need to write.
     var result = -1;
-
     _.each(array, function(item, index) {
       if (item === target && result === -1) {
         result = index;
@@ -82,7 +81,6 @@
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
     var filtered = []
-
   _.each(collection, function(val) {
     if (test(val)) {
       filtered.push(val);
@@ -103,6 +101,15 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    var unique = {};
+    var uniqueArray = [];
+    _.each(array, function(letter) {
+      unique[letter] = letter;
+    })
+    _.each(unique, function(key) {
+      uniqueArray.push(key);
+    })
+    return uniqueArray;
   };
 
 
