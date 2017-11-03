@@ -319,6 +319,16 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var uniqueArguments = {};
+    return function() {
+      var input = JSON.stringify(arguments);
+      //if uniqueArguments does not have certain input, makes 
+      //new property with key of input and prop of output
+      if (!uniqueArguments.hasOwnProperty(input)) {
+        uniqueArguments[input] = func.apply(this, arguments);
+      }
+      return uniqueArguments[input];
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
