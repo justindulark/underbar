@@ -50,7 +50,17 @@
   //
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
-
+  _.each = function(collection, iterator) {
+    if (Array.isArray(collection)) {
+      for (var x = 0; x < collection.length; x++) {
+        iterator(collection[x], x, collection);
+      }
+    } else {
+      for (var key in collection) {
+        iterator(collection[key], key, collection);
+      }
+    }
+  };
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
@@ -245,7 +255,8 @@
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
     //for every prop/key in source, every source in arguments;
-    _.each(arguments, function (source) {
+    var propertiesToAdd = Array.prototype.slice.call(arguments);
+    _.each(propertiesToAdd, function (source) {
       _.each(source, function(prop, key) {
         obj[key] = prop;
       })
@@ -256,6 +267,15 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var propertiesToAdd = Array.prototype.slice.call(arguments);
+    _.each(propertiesToAdd, function (source) {
+      _.each(source, function(prop, key) {
+        if(obj[key] === undefined) {
+          obj[key] = prop;
+        }
+      })
+    })
+    return obj;
   };
 
 
