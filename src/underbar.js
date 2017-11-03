@@ -50,17 +50,7 @@
   //
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
-  _.each = function(collection, iterator) {
-    if (Array.isArray(collection)) {
-      for (var x = 0; x < collection.length; x++) {
-        iterator(collection[x], x, collection);
-      }
-    } else {
-      for (var key in collection) {
-        iterator(collection[key], key, collection);
-      }
-    }
-  };
+
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
@@ -216,6 +206,9 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    // consider failing case (if all items are false). this test returns true if all
+    // items are false. then every would return true, so we put a ! in front of every
+    // Now the test only fails if all items are false
     iterator = iterator || _.identity;
     return !_.every(collection, function(item) {
       return !iterator(item);
@@ -251,6 +244,13 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    //for every prop/key in source, every source in arguments;
+    _.each(arguments, function (source) {
+      _.each(source, function(prop, key) {
+        obj[key] = prop;
+      })
+    })
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
